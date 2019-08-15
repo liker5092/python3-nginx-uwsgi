@@ -1,28 +1,52 @@
 FROM ubuntu:18.04
 
-RUN apt-get update \
-       && apt-get install -y --no-install-recommends \
-          gcc \
-          vim \
-          wget \
-          python3 \
-          python3-all-dev \
-          nginx \
-          sqlite3 \
-       && apt-get upgrade -y \
-       && wget -c -O get-pip.py --no-check-certificate https://bootstrap.pypa.io/get-pip.py \
-       && python3 get-pip.py \
-       && pip3 -V \
-       && apt-get autoclean \
-       && apt-get autoremove \
-       && rm -rf get-pip.py \
-       && rm -rf /var/lib/apt/lists/*
+# 更换源并安装系统软件
+
+RUN echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" > /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        gcc \
+        vim \
+        wget \
+        python3 \
+        python3-all-dev \
+        nginx \
+        sqlite3 \
+    && apt-get upgrade -y \
+    && wget -c -O get-pip.py --no-check-certificate https://bootstrap.pypa.io/get-pip.py \
+    && python3 get-pip.py \
+    && pip3 -V \
+    && apt-get autoclean \
+    && apt-get autoremove \
+    && rm -rf get-pip.py \
+    && rm -rf /var/lib/apt/lists/*
 	
-
-WORKDIR /app
+# 工作站点，需要将你的项目和本文件放到一个目录下再创建
+WORKDIR /site
 COPY . .
-RUN pip3 install -r requirements.txt
+
+# 运行测试点
+RUN pip3 install -r /site/requirements.txt \
+    && mkdir /test \
+    && django-admin startproject project /test/
 
 
+# 默认的端口
 EXPOSE 8000
-CMD ["python3","/app/manage.py","runserver","0.0.0.0:8000"]
+
+# 默认运行测试下的项目。
+CMD ["python3","/test/manage.py","runserver","0.0.0.0:8000"]
+
+
+# 运行命令
+# docker run --name yourname -it --rm -v "$PWD":/site -w /site --privileged=true -p 0.0.0.0:8000:8000 python3-nginx-uwsgi:v1 bash -c "pip3 install -r requirements.txt && python3 manage.py runserver 0.0.0.0:8000"
+
