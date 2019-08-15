@@ -2,25 +2,15 @@ FROM ubuntu:18.04
 
 # 更换源并安装系统软件
 
-RUN echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" > /etc/apt/sources.list \
-    && echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
-    && echo "deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list \
-    && apt-get update \
+RUN    apt-get update \
     && apt-get install -y --no-install-recommends \
-        gcc \
-        vim \
-        wget \
-        python3 \
-        python3-all-dev \
-        nginx \
-        sqlite3 \
+         gcc \
+         vim \
+         wget \
+         python3 \
+         python3-all-dev \
+         nginx \
+         sqlite3 \
     && apt-get upgrade -y \
     && wget -c -O get-pip.py --no-check-certificate https://bootstrap.pypa.io/get-pip.py \
     && python3 get-pip.py \
@@ -47,6 +37,8 @@ EXPOSE 8000
 CMD ["python3","/test/manage.py","runserver","0.0.0.0:8000"]
 
 
-# 运行命令
+# 你自己的站点的运行命令
 # docker run --name yourname -it --rm -v "$PWD":/site -w /site --privileged=true -p 0.0.0.0:8000:8000 python3-nginx-uwsgi:v1 bash -c "pip3 install -r requirements.txt && python3 manage.py runserver 0.0.0.0:8000"
 
+# 示例测试的站点
+# docker run --rm python3-nginx-uwsgi:v1
