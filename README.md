@@ -20,26 +20,26 @@ echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe mult
 
 
 
-==================
+目录结构==================
 ```
-——site————
+——/site————
        |——manage.py
-       |——yore_main_app(project)
+       |——/yore_main_app(project)
        |    |——__init__.py
        |    |——settings.py
        |    |——urls.py
        |    |——wsgi.py
        |
        |
-       |——your_other_app
+       |——/your_other_app
        |    |——models.py
        |    |——views.py
        |    |——（other_files）
        |    
-       |——static
+       |——/static
        |    |——x.jpg
-       |    |——css
-       |    |——img
+       |    |——/css
+       |    |——/img
        |        |——X.jpg
        |
        |——Dockerfile
