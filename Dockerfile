@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-# ¸ü»»Ô´²¢°²×°ÏµÍ³Èí¼ş
+# æ›´æ¢æºå¹¶å®‰è£…ç³»ç»Ÿè½¯ä»¶
 
 RUN    apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -20,25 +20,25 @@ RUN    apt-get update \
     && rm -rf get-pip.py \
     && rm -rf /var/lib/apt/lists/*
 	
-# ¹¤×÷Õ¾µã£¬ĞèÒª½«ÄãµÄÏîÄ¿ºÍ±¾ÎÄ¼ş·Åµ½Ò»¸öÄ¿Â¼ÏÂÔÙ´´½¨
+# å·¥ä½œç«™ç‚¹ï¼Œéœ€è¦å°†ä½ çš„é¡¹ç›®å’Œæœ¬æ–‡ä»¶æ”¾åˆ°ä¸€ä¸ªç›®å½•ä¸‹å†åˆ›å»º
 WORKDIR /site
 COPY . .
 
-# ÔËĞĞ²âÊÔµã
+# è¿è¡Œæµ‹è¯•ç‚¹
 RUN pip3 install -r /site/requirements.txt \
     && mkdir /test \
     && django-admin startproject project /test/
 
 
-# Ä¬ÈÏµÄ¶Ë¿Ú
+# é»˜è®¤çš„ç«¯å£
 EXPOSE 8000
 
-# Ä¬ÈÏÔËĞĞ²âÊÔÏÂµÄÏîÄ¿¡£
+# é»˜è®¤è¿è¡Œæµ‹è¯•ä¸‹çš„é¡¹ç›®ã€‚
 CMD ["python3","/test/manage.py","runserver","0.0.0.0:8000"]
 
 
-# Äã×Ô¼ºµÄÕ¾µãµÄÔËĞĞÃüÁî
-# docker run --name yourname -it --rm -v "$PWD":/site -w /site --privileged=true -p 0.0.0.0:8000:8000 python3-nginx-uwsgi:v1 bash -c "pip3 install -r requirements.txt && python3 manage.py runserver 0.0.0.0:8000"
+# ä½ è‡ªå·±çš„ç«™ç‚¹çš„è¿è¡Œå‘½ä»¤
+# docker run --name yourname -it --rm -v "$PWD":/site -w /site --privileged=true -p 0.0.0.0:8000:8000 liker5092/python3-nginx-uwsgi bash -c "pip3 install -r requirements.txt && python3 manage.py runserver 0.0.0.0:8000"
 
-# Ê¾Àı²âÊÔµÄÕ¾µã
+# ç¤ºä¾‹æµ‹è¯•çš„ç«™ç‚¹
 # docker run --rm python3-nginx-uwsgi:v1
