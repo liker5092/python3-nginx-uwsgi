@@ -18,11 +18,9 @@ echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe mult
 ```
 
 
-
-
-目录结构==================
+## 目录结构
 ```
-——/site————
+/site————
        |——manage.py
        |——/yore_main_app(project)
        |    |——__init__.py
@@ -42,6 +40,11 @@ echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe mult
        |    |——/img
        |        |——X.jpg
        |
+       |——sqlite3.db
+       |
        |——Dockerfile
        |——requirements.txt
   ```
+
+## 注意
+* 仅支持sqlite3的数据库，其它数据库请另行安装或自行定制镜像
