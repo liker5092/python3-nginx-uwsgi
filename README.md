@@ -21,7 +21,7 @@ echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe mult
 
 
 ==================
-
+'''
 ——site————
        |——manage.py
        |——yore_main_app(project)
@@ -44,3 +44,4 @@ echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe mult
        |
        |——Dockerfile
        |——requirements.txt
+   '''
